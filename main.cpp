@@ -10,17 +10,14 @@ struct Book{
     string Title;
     string Author;
     string Nationality;
-    string publishDate;
+    string PublishDate;
     string GenderAuthor;
-
-    //int publishDate;
-    //char genderAuthor;
 };
 
 //------------------------------------------------------------------------------
 
-vector<Book> parseCSVFile(string csvFileAddress);
-void printBook(Book myBook);
+vector<Book> parseCSVFile(const string csvFileAddress);
+void printBook(const Book myBook);
 
 
 //------------------------------------------------------------------------------
@@ -38,7 +35,7 @@ class Library{
         //~Library();
 
         void printAll();
-        void printFromAttribute(string attribute);
+        void printFromAttribute(string searchAttribute, string searchRequest);
 
         void addBook(Book bookToAdd);
 };
@@ -60,16 +57,52 @@ Library::Library(string csvFileAddress){
 
 void Library::printAll(){
     for (const Book& tempBook : inventory){
-        cout << "-------------" << endl;
         printBook(tempBook);
     }
-    cout <<  "-------------";
+}
+
+void Library::printFromAttribute(string searchAttribute, string searchRequest){
+
+    // this step can be optimised better to not let copy pastes
+    // but that is beyong my expertise
+
+    if (searchAttribute == "Title"){
+        for (const Book& tempBook : inventory){
+            if (tempBook.Title == searchRequest){printBook(tempBook);}
+        }
+    }
+
+    else if (searchAttribute == "Author"){
+        for (const Book& tempBook : inventory){
+            if (tempBook.Author == searchRequest){printBook(tempBook);}
+        }
+    }
+
+    else if (searchAttribute == "Nationality"){
+        for (const Book& tempBook : inventory){
+            if (tempBook.Nationality == searchRequest){printBook(tempBook);}
+        }
+    }
+
+    else if (searchAttribute == "PublishDate"){
+        for (const Book& tempBook : inventory){
+            if (tempBook.PublishDate == searchRequest){printBook(tempBook);}
+        }
+    }
+
+    else if (searchAttribute == "GenderAuthor"){
+        for (const Book& tempBook : inventory){
+            if (tempBook.GenderAuthor == searchRequest){printBook(tempBook);}
+        }
+    }
+
+    else {cout << "searchAttribute does not match any of the book's attributes" << endl;}
 }
 
 
 //------------------------------------------------------------------------------
 
-vector<Book> parseCSVFile(string csvFileAddress){
+vector<Book> parseCSVFile(const string csvFileAddress){
     fstream csvFile;
     vector<Book> parsedFile;
 
@@ -108,7 +141,7 @@ vector<Book> parseCSVFile(string csvFileAddress){
                             tempBook.GenderAuthor = tempString;
 
                         case 4:
-                            tempBook.publishDate = tempString;
+                            tempBook.PublishDate = tempString;
                     }
 
                     tempString.clear(); i++;
@@ -121,7 +154,8 @@ vector<Book> parseCSVFile(string csvFileAddress){
     return parsedFile;
 }
 
-void printBook(Book myBook){
+void printBook(const Book myBook){
+    cout << "-------------" << endl;
     cout << "Title: " << myBook.Title << endl;
 
     cout << "Author: ";
@@ -130,16 +164,17 @@ void printBook(Book myBook){
     cout << myBook.Author << endl;
 
     cout << "Authour Nationality: " << myBook.Nationality << endl;
-    cout << "Century of Publishing: " << myBook.publishDate << endl;
+    cout << "Century of Publishing: " << myBook.PublishDate << endl;
 }
 
 int main(){
     fstream dataFile;
     string txt;
 
-    Library mySecondLibrary("Data.csv");
+    Library myLibrary("Data.csv");
 
-    mySecondLibrary.printAll();
+    //myLibrary.printAll();
+    myLibrary.printFromAttribute("Nationality","Germany");
 
     return 0;
 }
