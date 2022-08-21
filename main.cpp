@@ -42,21 +42,21 @@ Library::Library(){
 
 //------------------------------------------------------------------------------
 
-int main(){
-    fstream dataFile;
-    string txt;
-    vector<vector<string>> BigData;
-    
-    dataFile.open("Data.csv",fstream::in);
+vector<vector<string>> parseCSVFile(string csvFileAddress){
+    fstream csvFile;
+    vector<vector<string>> parsedFile;
 
-    if (dataFile.fail()){cout << "Input file opening failed. \n";}
+    csvFile.open(csvFileAddress,fstream::in);
+
+    if (csvFile.fail()){cout << "CSV file opening failed. \n";}
     else{
-        int i = 0;
+        int i=0;
         vector<string> tempLine;
-        
-        while (getline(dataFile,txt)){
-            string tempString;
+        string txt;
 
+        while(getline(csvFile,txt)){
+            string tempString;
+            
             while (txt.length() > 0){
                 if (txt[0] != ','){
                     tempString.push_back(txt[0]);
@@ -68,9 +68,22 @@ int main(){
                     tempString.clear();
                 }
             }
-            BigData.push_back(tempLine);
+            parsedFile.push_back(tempLine);
             tempLine.clear();
         }
     }
+    return parsedFile;
+}
+
+
+
+int main(){
+    fstream dataFile;
+    string txt;
+    vector<vector<string>> BigData;
+    
+    dataFile.open("Data.csv",fstream::in);
+
+    BigData = parseCSVFile("Data.csv");
     return 0;
 }
