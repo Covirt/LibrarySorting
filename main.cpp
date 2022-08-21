@@ -20,6 +20,7 @@ struct Book{
 //------------------------------------------------------------------------------
 
 vector<Book> parseCSVFile(string csvFileAddress);
+void printBook(Book myBook);
 
 
 //------------------------------------------------------------------------------
@@ -58,21 +59,13 @@ Library::Library(string csvFileAddress){
 
 
 void Library::printAll(){
-    int i=0;
     for (const Book& tempBook : inventory){
         cout << "-------------" << endl;
-        cout << "Title: " << tempBook.Title << endl;
-
-        cout << "Author: ";
-        if (tempBook.GenderAuthor == "M"){cout << "Mr. ";}
-        else if (tempBook.GenderAuthor == "F"){cout << "Mrs. ";}
-        cout << tempBook.Author << endl;
-
-        cout << "Authour Nationality: " << tempBook.Nationality << endl;
-        cout << "Century of Publishing: " << tempBook.publishDate << endl;
+        printBook(tempBook);
     }
     cout <<  "-------------";
 }
+
 
 //------------------------------------------------------------------------------
 
@@ -128,7 +121,17 @@ vector<Book> parseCSVFile(string csvFileAddress){
     return parsedFile;
 }
 
+void printBook(Book myBook){
+    cout << "Title: " << myBook.Title << endl;
 
+    cout << "Author: ";
+    if (myBook.GenderAuthor == "M"){cout << "Mr. ";}
+    else if (myBook.GenderAuthor == "F"){cout << "Mrs. ";}
+    cout << myBook.Author << endl;
+
+    cout << "Authour Nationality: " << myBook.Nationality << endl;
+    cout << "Century of Publishing: " << myBook.publishDate << endl;
+}
 
 int main(){
     fstream dataFile;
