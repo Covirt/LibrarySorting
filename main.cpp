@@ -4,6 +4,8 @@
 
 using namespace std;
 
+//------------------------------------------------------------------------------
+
 struct Book{
     string Title;
     string Author;
@@ -11,6 +13,34 @@ struct Book{
     char genderAuthor;
 };
 
+//------------------------------------------------------------------------------
+//
+// class Point / Definitions
+//
+//------------------------------------------------------------------------------
+
+class Library{
+    private:
+        vector<vector<string>> inventory;
+    public:
+        Library();
+        Library(string csvFileAddress);
+
+        void printAll();
+        void printFromAttribute(string attribute);
+
+        void addBook(Book bookToAdd);
+};
+
+//------------------------------------------------------------------------------
+
+Library::Library(){
+    string csvAddress;
+    cout << "Please enter the address of the csv file with the list of the books in the library: ";
+    cin >> csvAddress ;
+}
+
+//------------------------------------------------------------------------------
 
 int main(){
     fstream dataFile;
