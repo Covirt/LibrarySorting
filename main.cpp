@@ -10,8 +10,8 @@ struct Book{
     string Title;
     string Author;
     string Nationality;
-    string PublishDate;
-    string GenderAuthor;
+    string PublishDate; //idealy this would be an int
+    string GenderAuthor; //idealy this would be a char
 };
 
 //------------------------------------------------------------------------------
@@ -63,44 +63,49 @@ void Library::printAll(){
 
 void Library::printFromAttribute(string searchAttribute, string searchRequest){
 
-    // this step can be optimised better to not let copy pastes
+    // this step can be optimised better to have less copy pastes
     // but that is beyong my expertise
+
+    bool printedBook = false;
 
     if (searchAttribute == "Title"){
         for (const Book& tempBook : inventory){
-            if (tempBook.Title == searchRequest){printBook(tempBook);}
+            if (tempBook.Title == searchRequest){printBook(tempBook);printedBook = true;}
         }
     }
 
     else if (searchAttribute == "Author"){
         for (const Book& tempBook : inventory){
-            if (tempBook.Author == searchRequest){printBook(tempBook);}
+            if (tempBook.Author == searchRequest){printBook(tempBook);printedBook = true;}
         }
     }
 
     else if (searchAttribute == "Nationality"){
         for (const Book& tempBook : inventory){
-            if (tempBook.Nationality == searchRequest){printBook(tempBook);}
+            if (tempBook.Nationality == searchRequest){printBook(tempBook);printedBook = true;}
         }
     }
 
     else if (searchAttribute == "PublishDate"){
         for (const Book& tempBook : inventory){
-            if (tempBook.PublishDate == searchRequest){printBook(tempBook);}
+            if (tempBook.PublishDate == searchRequest){printBook(tempBook);printedBook = true;}
         }
     }
 
     else if (searchAttribute == "GenderAuthor"){
         for (const Book& tempBook : inventory){
-            if (tempBook.GenderAuthor == searchRequest){printBook(tempBook);}
+            if (tempBook.GenderAuthor == searchRequest){printBook(tempBook);printedBook = true;}
         }
     }
 
     else {cout << "searchAttribute does not match any of the book's attributes" << endl;}
+    if (!printedBook){cout << "No books match that definition" << endl;}
 }
 
 
 //------------------------------------------------------------------------------
+
+
 
 vector<Book> parseCSVFile(const string csvFileAddress){
     fstream csvFile;
@@ -118,16 +123,16 @@ vector<Book> parseCSVFile(const string csvFileAddress){
             string tempString;
             
             while (txt.length() > 0){
-                bool commaRule = false;
 
-                if (txt[0] != '|'){
+                if (txt[0] != '|'){ // until you have read a whole attribute, read the line
                     tempString.push_back(txt[0]);
                     txt.erase(0,1);
                 }
-                else{
-                    txt.erase(0,1);
+                else{ // when you have read a whole line
+                    txt.erase(0,1); // remove the comma
 
                     switch(i){
+                        // associate the string in the correct book attribute
                         case 0:
                             tempBook.Title = tempString;
                         
@@ -148,7 +153,7 @@ vector<Book> parseCSVFile(const string csvFileAddress){
                     
                 }
             }
-            parsedFile.push_back(tempBook); i=0;
+            parsedFile.push_back(tempBook); i=0; // when a whole line has been read, add the book to the inventory
         }
     }
     return parsedFile;
@@ -174,7 +179,7 @@ int main(){
     Library myLibrary("Data.csv");
 
     //myLibrary.printAll();
-    myLibrary.printFromAttribute("Nationality","Germany");
+    //myLibrary.printFromAttribute("GenderAuthor","F");
 
     return 0;
 }
