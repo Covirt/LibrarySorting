@@ -4,6 +4,9 @@
 
 using namespace std;
 
+vector<vector<string>> parseCSVFile(string csvFileAddress);
+
+
 //------------------------------------------------------------------------------
 
 struct Book{
@@ -25,6 +28,7 @@ class Library{
     public:
         Library();
         Library(string csvFileAddress);
+        ~Library();
 
         void printAll();
         void printFromAttribute(string attribute);
@@ -38,6 +42,12 @@ Library::Library(){
     string csvAddress;
     cout << "Please enter the address of the csv file with the list of the books in the library: ";
     cin >> csvAddress ;
+
+    inventory = parseCSVFile(csvAddress);
+}
+
+Library::Library(string csvFileAddress){
+    inventory = parseCSVFile(csvFileAddress);
 }
 
 //------------------------------------------------------------------------------
@@ -80,10 +90,8 @@ vector<vector<string>> parseCSVFile(string csvFileAddress){
 int main(){
     fstream dataFile;
     string txt;
-    vector<vector<string>> BigData;
-    
-    dataFile.open("Data.csv",fstream::in);
 
-    BigData = parseCSVFile("Data.csv");
+    Library mySecondLibrary("Data.csv");
+
     return 0;
 }
